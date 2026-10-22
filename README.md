@@ -58,6 +58,8 @@ npm run db:seed                  # in a second terminal: loads seed/example-cata
 npm test                         # validation, ingest and login tests
 ```
 
+On GitHub, every pull request (and every push to `main`) runs `npm test` and `npm run build` ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), so a change that would break the deploy shows up on the PR first.
+
 ## Deploy (one-time setup, about 20 minutes)
 
 ### 0. Before you start
@@ -180,4 +182,5 @@ seed/            example ingest file (everything on the site at launch)
 docs/            ingest file format
 scripts/         fetch-art (TMDB / Wikipedia / Spotify), seed-local
 tests/           vitest: validation, ingest, auth
+.github/         CI: tests and build on every pull request
 ```
