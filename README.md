@@ -9,7 +9,7 @@ A hand-curated library of **films, TV, music and games** for everyone who visits
   - **free / limited-time availability** badges that hide themselves after the end date
 - **Music**: artists, album, **Spotify** and **Music video** buttons
 - **Games**:
-  - US and Japan release dates, platforms
+  - release dates for the US, Japan, Thailand and South America (each language shows its own region's), platforms
   - developer and publisher (each with their own studio page)
   - notable creators (e.g. Hideo Kojima)
 - **Everything links up.**

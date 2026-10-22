@@ -148,7 +148,7 @@ function readField(spec: FieldSpec, v: unknown, errors: string[], warnings: stri
     const out = compact(Object.fromEntries(LANGS.map((l) => [l, asString(o[l]) ?? (l === 'en' ? '' : undefined)]))) as I18n;
     const others = TRANSLATIONS.filter((l) => out[l]);
     if (!out.en && others.length) { errors.push(`${where} has ${others.map((l) => LANG_INFO[l].english).join(' and ')} but no English`); return undefined; }
-    // Japanese is the site's default language, so a missing Japanese translation is worth a nudge; Thai and Spanish are optional.
+    // Japanese is the main translation, so a missing one is worth a nudge; Thai and Spanish are optional.
     if (out.en && !out.ja && spec.type !== 'id') warnings.push(`${where} has no Japanese yet (English will be shown)`);
     return out.en ? out : undefined;
   }
