@@ -55,7 +55,7 @@ cp .dev.vars.example .dev.vars   # lets you use /admin on localhost without logg
 npm run db:migrate               # creates the local database (in .wrangler/)
 npm run dev                      # http://localhost:5173  ·  admin: http://localhost:5173/admin
 npm run db:seed                  # in a second terminal: loads seed/example-catalog.json
-npm test                         # validation, ingest and login tests
+npm test                         # validation, ingest, login and API tests
 ```
 
 On GitHub, every pull request (and every push to `main`) runs `npm test` and `npm run build` ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), so a change that would break the deploy shows up on the PR first.
@@ -181,6 +181,6 @@ src/components/  cards, chips, availability badge, layout
 seed/            example ingest file (everything on the site at launch)
 docs/            ingest file format
 scripts/         fetch-art (TMDB / Wikipedia / Spotify), seed-local
-tests/           vitest: validation, ingest, auth
+tests/           vitest: validation, ingest, auth, the API against a local D1
 .github/         CI: tests and build on every pull request
 ```
