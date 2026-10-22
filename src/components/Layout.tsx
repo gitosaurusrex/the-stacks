@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router';
 import { enabledMedia } from '../data';
@@ -169,7 +169,9 @@ export function Layout() {
   const scrolled = useScrolled();
   const headerRef = useHeaderHeight();
   return (
-    <>
+    // For visitors who ask for reduced motion, Motion skips movement (layout shifts, sliding pills, scaling) and keeps
+    // fades; styles.css does the same for CSS animations and page transitions.
+    <MotionConfig reducedMotion="user">
       <a href="#main" className="skip-link">{t.skip}</a>
       <div className="ambient" aria-hidden>
         <span className="ambient__blob ambient__blob--a" />
@@ -204,6 +206,6 @@ export function Layout() {
         <small className="site-footer__credit">Some artwork via TMDB and Wikipedia. This site uses the TMDB API but is not endorsed or certified by TMDB.</small>
       </footer>
       <ScrollRestoration />
-    </>
+    </MotionConfig>
   );
 }

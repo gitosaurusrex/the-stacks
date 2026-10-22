@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react';
 import type { CSSProperties, PointerEvent } from 'react';
 import type { Item } from '../types';
 import { isFreeNow, isLimitedNow, itemHue, itemKey, itemPath } from '../data';
@@ -15,13 +15,14 @@ export function Card({ item, instance, size = 'md', index = 0 }: { item: Item; i
   const loc = item[lang];
   const key = itemKey(item);
 
-  // Gentle 3D tilt that follows the pointer.
+  // Gentle 3D tilt that follows the pointer (off for visitors who ask for reduced motion).
+  const still = useReducedMotion();
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.5);
   const rx = useSpring(useTransform(my, [0, 1], [7, -7]), { stiffness: 220, damping: 18 });
   const ry = useSpring(useTransform(mx, [0, 1], [-9, 9]), { stiffness: 220, damping: 18 });
   const onMove = (e: PointerEvent<HTMLElement>) => {
-    if (e.pointerType !== 'mouse') return;
+    if (e.pointerType !== 'mouse' || still) return;
     const r = e.currentTarget.getBoundingClientRect();
     mx.set((e.clientX - r.left) / r.width);
     my.set((e.clientY - r.top) / r.height);
