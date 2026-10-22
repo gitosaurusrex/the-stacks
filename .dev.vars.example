@@ -4,7 +4,5 @@ DEV_AUTH_BYPASS=true
 # Or, to try the real login locally, leave the line above out and set a password instead:
 # ADMIN_PASSWORD=
 
-# Optional, for "Find art" in the admin (same keys as the production secrets):
+# Optional, for "Find art" in the admin (same key as the production secret):
 # TMDB_API_KEY=
-# TWITCH_CLIENT_ID=
-# TWITCH_CLIENT_SECRET=

@@ -28,4 +28,22 @@ export default defineConfig({
     // isn't available locally. To try real AI translation locally, run `FYC_REMOTE_AI=true npm run dev`.
     cloudflare({ remoteBindings: process.env.FYC_REMOTE_AI === 'true' }),
   ],
+  environments: {
+    client: {
+      build: {
+        rolldownOptions: {
+          output: {
+            // Libraries in their own chunks: they rarely change, so returning visitors keep them cached across
+            // deploys and only re-download the (much smaller) app code.
+            codeSplitting: {
+              groups: [
+                { name: 'react', test: /node_modules[\\/](react|react-dom|react-router|scheduler|cookie|set-cookie-parser)[\\/]/ },
+                { name: 'motion', test: /node_modules[\\/](motion|motion-dom|motion-utils|framer-motion)[\\/]/ },
+              ],
+            },
+          },
+        },
+      },
+    },
+  },
 });

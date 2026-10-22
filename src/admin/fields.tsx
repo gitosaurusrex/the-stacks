@@ -51,7 +51,7 @@ export function I18nInput({ label, value, onChange, multiline, required, hint, f
     if (src) next[sourceKey(field, l)] = src; else delete next[sourceKey(field, l)];
     onSourcesChange(Object.keys(next).length ? next : undefined);
   };
-  // Japanese is the default language, so a missing translation is highlighted; Thai and Spanish are optional.
+  // Japanese is the main translation, so a missing one is highlighted; Thai and Spanish are optional.
   const missingJa = !!v.en && !v.ja;
   const Input = multiline ? 'textarea' : 'input';
   const current = sourceOf(lang);

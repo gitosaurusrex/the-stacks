@@ -4,7 +4,7 @@
  * Used by the Worker (validation, ingest) and the browser (admin forms, display).
  */
 
-/** Site languages. English is the base every translation falls back to; Japanese is the default for visitors. */
+/** Site languages. English is the default for visitors and the base every translation falls back to. */
 export const LANGS = ['en', 'ja', 'th', 'es'] as const;
 export type Lang = (typeof LANGS)[number];
 /** Languages other than English: optional translations of every text field. */

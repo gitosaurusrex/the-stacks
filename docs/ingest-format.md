@@ -74,7 +74,7 @@ Every item has these fields:
 | Field | Required | Notes |
 |---|---|---|
 | `release_us` | at least one date | date. Shown on the English page. |
-| `release_jp` | at least one date | date. Shown on the Japanese page. Leave it out if it wasn't released in Japan; the page then says so. |
+| `release_jp` | at least one date | date. Shown on the Japanese page. Leave it out if it wasn't released in Japan; the page then shows "Unknown". |
 | `release_th` | at least one date | date. Shown on the Thai page. |
 | `release_sa` | at least one date | date (South America). Shown on the Spanish page. |
 | `platforms` | ✅ | codes: `pc`, `mac`, `steam-deck`, `ios`, `android`, `ps5`, `ps4`, `ps3`, `ps2`, `ps1`, `ps-vita`, `psp`, `xbox-series`, `xbox-one`, `xbox-360`, `xbox`, `switch-2`, `switch`, `wii-u`, `wii`, `3ds`, `ds`, `gamecube`, `n64`, `snes`, `nes`, `game-boy`, `gba`, `dreamcast`, `saturn`, `genesis`, `meta-quest`, `ps-vr2` |
