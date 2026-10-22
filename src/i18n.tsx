@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { flushSync } from 'react-dom';
+import { loadJapaneseFonts } from './fonts';
 import { isLang, LANG_INFO } from './shared/schema';
 import type { Lang } from './types';
 
@@ -389,6 +390,7 @@ interface LangCtx {
 const Ctx = createContext<LangCtx | null>(null);
 const STORAGE_KEY = 'fyc-lang';
 
+/** index.html makes the same choice before the app loads, to decide whether to load the Japanese fonts. */
 function initialLang(): Lang {
   const param = new URLSearchParams(location.search).get('lang');
   if (isLang(param)) return param;
@@ -404,6 +406,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = lang;
+    if (lang === 'ja') loadJapaneseFonts();
   }, [lang]);
 
   // Only a choice the visitor made is remembered, so everyone else gets the English default.

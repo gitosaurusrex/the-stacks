@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { NavLink, Route, Routes } from 'react-router';
+import { loadJapaneseFonts } from '../fonts';
 import { api } from './api';
 import { AdminProvider, useAdmin } from './context';
 import { Dashboard } from './Dashboard';
@@ -59,6 +60,8 @@ export function AdminApp() {
     // The admin keeps the default palette, not the public site's time-of-day one.
     delete document.documentElement.dataset.period;
     document.documentElement.style.setProperty('--page-h', '230');
+    // The edit forms show Japanese text.
+    loadJapaneseFonts();
   }, []);
   return (
     <AdminProvider>
