@@ -6,6 +6,8 @@ export interface Bindings {
   TMDB_API_KEY?: string;
   /** Cloudflare Workers AI, for filling translation gaps (free daily allowance). */
   AI?: Ai;
+  /** The deployed version, so the catalog's ETag changes with every deploy. */
+  CF_VERSION_METADATA?: WorkerVersionMetadata;
   ADMIN_PASSWORD?: string;
   DEV_AUTH_BYPASS?: string;
 }

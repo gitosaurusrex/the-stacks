@@ -6,7 +6,7 @@ import { ArtError, artStatus, fillPerson, findArt, type Credit } from './art';
 import { fillDoc, gapsOf, labelOf, TranslateError } from './translate';
 import { fillPlan, planKeys } from '../src/shared/fill';
 import { login, logout, requireAdmin } from './auth';
-import { getEntity, getSettings, loadAll, putSetting, upsert } from './db';
+import { entitiesVersion, getEntity, getSettings, loadAll, putSetting, upsert } from './db';
 import type { AppEnv } from './env';
 import { importImage, MediaError, serveImage, storeImage } from './media';
 
@@ -19,14 +19,28 @@ app.onError((err, c) => {
 
 // ───────────────────────────── Public ─────────────────────────────
 
+/** Weak ETag for the catalog: the stored records' version, the settings and the deployed Worker version. */
+async function catalogTag(version: string, settings: SiteSettings, deployed = '') {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`${deployed}|${version}|${JSON.stringify(settings)}`));
+  return `W/"${[...new Uint8Array(digest).subarray(0, 12)].map((x) => x.toString(16).padStart(2, '0')).join('')}"`;
+}
+
+const matchesTag = (header: string | undefined, tag: string) => !!header && header.split(',').some((t) => t.trim() === tag);
+
 /** Everything the public site needs, minus any medium that's switched off. */
 app.get('/catalog', async (c) => {
-  const [all, settings] = await Promise.all([loadAll(c.env.DB), getSettings(c.env.DB)]);
+  // Always revalidated, so admin edits and section switches show up immediately; when nothing changed, the
+  // browser's copy is reused (304) without reading every record.
+  c.header('Cache-Control', 'no-cache');
+  const [version, settings] = await Promise.all([entitiesVersion(c.env.DB), getSettings(c.env.DB)]);
+  const tag = await catalogTag(version, settings, c.env.CF_VERSION_METADATA?.id);
+  c.header('ETag', tag);
+  if (matchesTag(c.req.header('If-None-Match'), tag)) return c.body(null, 304);
+
+  const all = await loadAll(c.env.DB);
   const items = [...all.item.values()].filter((i) => settings.media[(i as ItemDoc).medium]) as ItemDoc[];
   const used = new Set(items.flatMap((i) => referencesOf('item', i).map((r) => r.key)));
   const pick = (type: EntityType) => [...all[type].values()].filter((d) => used.has(`${type}:${d.id}`));
-  // Always fresh, so admin edits and section switches show up immediately.
-  c.header('Cache-Control', 'no-cache');
   return c.json({
     settings,
     items,
