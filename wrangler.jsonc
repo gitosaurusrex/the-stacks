@@ -6,11 +6,13 @@
   "main": "./worker/index.ts",
   "compatibility_date": "2025-09-01",
   "assets": {
+    // Lets the Worker read index.html to add an item's title and artwork for link previews.
+    "binding": "ASSETS",
     // Client-side routes like /title/past-lives fall back to index.html.
     "not_found_handling": "single-page-application",
-    // Only these reach the Worker: the API, stored images, robots.txt and the sitemap. Everything else is served
-    // straight from the CDN.
-    "run_worker_first": ["/api/*", "/media/*", "/robots.txt", "/sitemap.xml"]
+    // Only these reach the Worker: the API, stored images, item pages (for link previews), robots.txt and the
+    // sitemap. Everything else is served straight from the CDN.
+    "run_worker_first": ["/api/*", "/media/*", "/title/*", "/music/*", "/game/*", "/robots.txt", "/sitemap.xml"]
   },
   "d1_databases": [
     {

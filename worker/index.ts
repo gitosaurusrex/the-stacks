@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { analyze, SECTION, summarize, writesFor, type Decision, type IngestFile } from '../src/shared/ingest';
-import { ENTITY_TYPES, hasText, IMAGE_FIELDS, isStoredImage, LANGS, MEDIA, type AnyDoc, type EntityType, type I18n, type ItemDoc, type PersonDoc, type SiteSettings } from '../src/shared/schema';
+import { ENTITY_TYPES, hasText, IMAGE_FIELDS, isLang, isStoredImage, ITEM_PATH, LANGS, MEDIA, type AnyDoc, type EntityType, type I18n, type ItemDoc, type PersonDoc, type SiteSettings } from '../src/shared/schema';
 import { normalize, referencesOf } from '../src/shared/validate';
 import { ArtError, artStatus, fillPerson, findArt, type Credit } from './art';
 import { fillDoc, gapsOf, labelOf, TranslateError } from './translate';
@@ -9,7 +9,7 @@ import { login, logout, requireAdmin } from './auth';
 import { entitiesVersion, getEntity, getSettings, loadAll, putSetting, upsert } from './db';
 import type { AppEnv } from './env';
 import { importImage, MediaError, serveImage, storeImage } from './media';
-import { publicCatalog, robots, sitemap } from './pages';
+import { itemMeta, publicCatalog, robots, sitemap, withMeta } from './pages';
 
 const app = new Hono<AppEnv>().basePath('/api');
 
@@ -394,12 +394,29 @@ app.route('/admin', admin);
 app.all('*', (c) => c.json({ error: 'Not found.' }, 404));
 
 /**
- * The Worker: stored images at /media/*, the API under /api, robots.txt and the sitemap. Everything else is served
- * as static files without reaching it.
+ * The Worker: stored images at /media/*, the API under /api, item pages (index.html with the item's details for
+ * link previews), robots.txt and the sitemap. Everything else is served as static files without reaching it.
  */
 const site = new Hono<AppEnv>();
 site.get('/media/:key', (c) => serveImage(c.env, c.req.param('key'), c.req.raw));
 site.route('/', app);
+
+for (const medium of MEDIA) {
+  site.get(`/${ITEM_PATH[medium]}/*`, async (c) => {
+    if (!c.env.ASSETS) return c.text('Not found', 404);
+    const url = new URL(c.req.url);
+    const page = await c.env.ASSETS.fetch(new URL('/', url));
+    const html = await page.text();
+    // Anything but /<path>/<slug> for an item in a switched-on section gets the app's own not-found page.
+    const slug = /^\/[^/]+\/([^/]+)$/.exec(url.pathname)?.[1];
+    const [doc, settings] = await Promise.all([slug ? getEntity(c.env.DB, 'item', slug) : null, getSettings(c.env.DB)]);
+    const item = doc && (doc as ItemDoc).medium === medium && settings.media[medium] ? (doc as ItemDoc) : undefined;
+    c.header('Cache-Control', 'no-cache');
+    if (!item) return c.html(html, 404);
+    const lang = url.searchParams.get('lang');
+    return c.html(withMeta(html, itemMeta(item, isLang(lang) ? lang : 'en', url)));
+  });
+}
 
 site.get('/robots.txt', (c) => {
   c.header('Cache-Control', 'public, max-age=86400');

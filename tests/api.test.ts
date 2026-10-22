@@ -18,8 +18,10 @@ let env: Bindings;
 beforeAll(async () => {
   // No .env / .dev.vars, so a developer's TMDB key can't make these tests call out.
   proxy = await getPlatformProxy<Bindings>({ persist: false, envFiles: [], remoteBindings: false });
-  // The admin bypass only works on localhost, which is where these requests go.
-  env = { DB: proxy.env.DB, DEV_AUTH_BYPASS: 'true' };
+  // The admin bypass only works on localhost, which is where these requests go. ASSETS serves the page template.
+  const page = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const ASSETS = { fetch: async () => new Response(page, { headers: { 'content-type': 'text/html' } }) } as unknown as Fetcher;
+  env = { DB: proxy.env.DB, DEV_AUTH_BYPASS: 'true', ASSETS };
   const dir = new URL('../migrations/', import.meta.url);
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.sql')).sort()) {
     const sql = readFileSync(new URL(file, dir), 'utf8').replace(/^--.*$/gm, '');
@@ -156,6 +158,29 @@ describe('catalog caching', () => {
 });
 
 describe('public pages', () => {
+  it('adds an item\'s details to its page for link previews, in the requested language', async () => {
+    const item = (await catalog()).items.find((i) => i.kind === 'film' && i.title.ja)!;
+    const res = await call(`/title/${item.id}?lang=ja`);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain(`<meta property="og:title" content="${item.title.ja}" />`);
+    expect(html).toContain('<html lang="ja">');
+    expect(html).toContain('<div id="root">');
+  });
+
+  it('serves the app with a 404 for unknown items, items in another section and hidden sections', async () => {
+    const game = (await catalog()).items.find((i) => i.medium === 'play')!;
+    for (const path of ['/title/no-such-thing', `/title/${game.id}`, `/game/${game.id}/extra`]) {
+      const res = await call(path);
+      expect(res.status, path).toBe(404);
+      expect(await res.text()).toContain('<title>The Stacks</title>');
+    }
+    expect((await call(`/game/${game.id}`)).status).toBe(200);
+    await send('PUT', '/api/admin/settings', { media: { play: false } });
+    expect((await call(`/game/${game.id}`)).status).toBe(404);
+    await send('PUT', '/api/admin/settings', { media: { play: true } });
+  });
+
   it('lists every shown page in the sitemap, in all four languages', async () => {
     const res = await call('/sitemap.xml');
     expect(res.headers.get('content-type')).toContain('application/xml');
