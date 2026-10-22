@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router';
 import { genresOf, itemsIn, itemsInGenre, searchText } from '../data';
 import { useLang, type Strings } from '../i18n';
 import { Grid } from '../components/Grid';
-import { usePageHue } from '../components/Layout';
+import { usePageHue, usePageTitle } from '../components/Layout';
 import { MEDIUM_KINDS, type ItemKind } from '../shared/schema';
 import type { Medium } from '../types';
 import { NotFound } from './NotFound';
@@ -20,6 +20,7 @@ export function Browse({ section }: { section: Medium }) {
   const { lang, t } = useLang();
   const cfg = config[section];
   usePageHue(cfg.hue);
+  usePageTitle(cfg.title(t));
   const [params, setParams] = useSearchParams();
   const kind = params.get('type') ?? 'all';
   const genre = params.get('g') ?? '';

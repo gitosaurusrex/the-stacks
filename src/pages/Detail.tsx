@@ -6,7 +6,7 @@ import { Art } from '../components/Art';
 import { AvailabilityBadge } from '../components/Availability';
 import { CountryTag, GenreTag, PersonChip, PlatformTag, StudioChip } from '../components/Chips';
 import { Shelf } from '../components/Grid';
-import { usePageHue } from '../components/Layout';
+import { usePageHue, usePageTitle } from '../components/Layout';
 import type { Item, Lang, Medium } from '../types';
 import { NotFound } from './NotFound';
 
@@ -74,6 +74,7 @@ function DetailView({ item }: { item: Item }) {
   usePageHue(hue);
   const d = item.doc;
   const loc = item[lang];
+  usePageTitle(loc.title);
   // English pages show only the English title; other languages show the English one beneath theirs.
   const alt = lang === 'en' ? undefined : item.en;
   const backdrop = d.backdrop || itemArt(item);

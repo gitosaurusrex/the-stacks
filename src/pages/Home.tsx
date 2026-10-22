@@ -4,7 +4,7 @@ import { useLang, type Strings } from '../i18n';
 import { Art } from '../components/Art';
 import { GenreTag } from '../components/Chips';
 import { Shelf } from '../components/Grid';
-import { usePageHue } from '../components/Layout';
+import { usePageHue, usePageTitle } from '../components/Layout';
 import { VLink } from '../components/VLink';
 import { PERIOD_HUE, usePeriod } from '../timeOfDay';
 import { claimArt, isActiveArt } from '../transitions';
@@ -130,6 +130,7 @@ export function Home() {
   const { lang, t } = useLang();
   const period = usePeriod();
   usePageHue(PERIOD_HUE[period]);
+  usePageTitle('');
   const text = settings.text;
   const greeting = text[period][lang] || text[period].en;
   const featured = allItems.filter((i) => i.doc.featured).slice(0, 4);

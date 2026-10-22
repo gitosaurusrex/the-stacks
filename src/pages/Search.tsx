@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router';
 import { allItems, enabledMedia, genresOf, isFreeNow, isLimitedNow, itemsInGenre, searchText } from '../data';
 import { countryName, flag, useLang } from '../i18n';
 import { Grid } from '../components/Grid';
-import { usePageHue } from '../components/Layout';
+import { usePageHue, usePageTitle } from '../components/Layout';
 import { genreKey, PLATFORMS } from '../shared/schema';
 import type { Medium } from '../types';
 
@@ -14,6 +14,7 @@ const reveal = (i: number) => ({ '--i': i }) as CSSProperties;
 export function Search() {
   const { lang, t } = useLang();
   usePageHue(230);
+  usePageTitle(t.advancedSearch);
   const [params, setParams] = useSearchParams();
 
   const q = params.get('q') ?? '';

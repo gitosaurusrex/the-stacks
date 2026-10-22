@@ -1,8 +1,10 @@
 import { useLang } from '../i18n';
 import { VLink } from '../components/VLink';
+import { usePageTitle } from '../components/Layout';
 
 export function NotFound() {
   const { t } = useLang();
+  usePageTitle(t.notFound);
   return (
     <div className="page not-found">
       <p className="not-found__glyph reveal" aria-hidden>🍿</p>

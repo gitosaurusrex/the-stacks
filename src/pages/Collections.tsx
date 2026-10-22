@@ -4,7 +4,7 @@ import { getCompany, getGenre, getPerson, hueOf, isAiTranslated, itemsFromCountr
 import { countryName, flag, useLang } from '../i18n';
 import { Avatar } from '../components/Chips';
 import { Grid } from '../components/Grid';
-import { usePageHue } from '../components/Layout';
+import { usePageHue, usePageTitle } from '../components/Layout';
 import { MEDIA, type Medium } from '../shared/schema';
 import type { Item } from '../types';
 import { NotFound } from './NotFound';
@@ -29,6 +29,7 @@ export function GenrePage() {
   const g = (MEDIA as string[]).includes(medium) ? getGenre(m, slug) : undefined;
   const hue = g?.doc.hue ?? hueOf(slug);
   usePageHue(hue);
+  usePageTitle(g?.[lang].name);
   if (!g) return <NotFound />;
   const items = itemsInGenre(m, slug);
   const altName = lang === 'en' ? undefined : g.en.name;
@@ -48,11 +49,11 @@ export function PersonPage() {
   const { slug = '' } = useParams();
   const { lang, t } = useLang();
   const p = getPerson(slug);
-  usePageHue(hueOf(slug));
-  if (!p) return <NotFound />;
   const { directed, starred, recorded, created } = worksOf(slug);
   const total = new Set([...directed, ...starred, ...recorded, ...created]).size;
-  if (!total) return <NotFound />;
+  usePageHue(hueOf(slug));
+  usePageTitle(p && total ? p[lang].name : undefined);
+  if (!p || !total) return <NotFound />;
   const altName = lang === 'en' ? undefined : p.en.name;
   return (
     <div className="page collection" style={{ '--h': hueOf(slug) } as CSSProperties}>
@@ -83,6 +84,7 @@ export function StudioPage() {
   const { lang, t } = useLang();
   const c = getCompany(slug);
   usePageHue(hueOf(slug));
+  usePageTitle(c?.[lang].name);
   if (!c) return <NotFound />;
   const { developed, published } = studioWorks(slug);
   const altName = lang === 'en' ? undefined : c.en.name;
@@ -107,7 +109,9 @@ export function CountryPage() {
   const upper = code.toUpperCase();
   usePageHue(hueOf(upper));
   const items = itemsFromCountry(upper);
-  if (!/^[A-Z]{2}$/.test(upper) || !items.length) return <NotFound />;
+  const found = /^[A-Z]{2}$/.test(upper) && items.length > 0;
+  usePageTitle(found ? countryName(upper, lang) : undefined);
+  if (!found) return <NotFound />;
   return (
     <div className="page collection">
       <header className="page-head page-head--banner">
