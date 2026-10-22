@@ -27,6 +27,8 @@ export const MEDIA: Medium[] = ['watch', 'listen', 'play'];
 export const ENTITY_TYPES: EntityType[] = ['genre', 'company', 'person', 'item'];
 export const KIND_MEDIUM: Record<ItemKind, Medium> = { film: 'watch', tv: 'watch', song: 'listen', album: 'listen', game: 'play' };
 export const MEDIUM_KINDS: Record<Medium, ItemKind[]> = { watch: ['film', 'tv'], listen: ['song', 'album'], play: ['game'] };
+/** First part of an item page's address: /title/past-lives, /music/…, /game/…. */
+export const ITEM_PATH: Record<Medium, string> = { watch: 'title', listen: 'music', play: 'game' };
 
 /** A translated string: English is required wherever the field is required; every other language falls back to English. */
 export type I18n = { en: string; ja?: string; th?: string; es?: string };

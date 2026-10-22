@@ -9,6 +9,16 @@ import { LANGS, type Lang } from '../types';
 import { VLink, VNavLink } from './VLink';
 
 
+/**
+ * Pages call this to name the browser tab and history entry ("Past Lives · The Stacks"); '' gives just the site name.
+ * undefined leaves the title alone, so a page that renders <NotFound /> doesn't overwrite its title.
+ */
+export function usePageTitle(title: string | undefined) {
+  useEffect(() => {
+    if (title !== undefined) document.title = title ? `${title} · The Stacks` : 'The Stacks';
+  }, [title]);
+}
+
 /** Pages call this to tint the ambient background. */
 export function usePageHue(hue: number | undefined) {
   useEffect(() => {

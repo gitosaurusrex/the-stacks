@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1a0f1d" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- page-meta: on item pages the Worker swaps this block for the item's own (worker/pages.ts) -->
     <title>The Stacks</title>
     <meta name="description" content="Films, TV, music and games worth your time — in English, Japanese, Thai and Spanish." />
+    <meta property="og:site_name" content="The Stacks" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="The Stacks" />
+    <meta property="og:description" content="Films, TV, music and games worth your time — in English, Japanese, Thai and Spanish." />
+    <meta name="twitter:card" content="summary" />
+    <!-- /page-meta -->
     <script>
       // Pick the time-of-day palette before first paint (same hours as periodAt in src/shared/schema.ts).
       if (!location.pathname.startsWith('/admin')) {

@@ -1,5 +1,7 @@
 export interface Bindings {
   DB: D1Database;
+  /** The built site (index.html), for adding an item's details to the page for link previews. */
+  ASSETS?: Fetcher;
   /** Image storage: R2 when bound, otherwise Workers KV (no payment method needed). */
   MEDIA?: R2Bucket;
   MEDIA_KV?: KVNamespace;

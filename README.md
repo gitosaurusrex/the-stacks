@@ -20,6 +20,7 @@ A hand-curated library of **films, TV, music and games** for everyone who visits
 - **Four languages: English, 日本語, ไทย and Español.** The globe menu in the header switches between them. The site defaults to English and remembers a visitor's own choice; `?lang=en` (or `ja`, `th`, `es`) in the address forces one. Content that hasn't been translated yet shows in English.
 - **Follows the time of day.** The colors and the home page greeting change with the visitor's clock: morning (5–11), afternoon (11–17), evening (17–21) and night (21–5). Morning and afternoon use light palettes, evening and night dark ones.
 - Animated single-page app: posters fly into their detail pages, pages cross-fade, and the language switch dissolves.
+- **Shares well and can be found.** Each page names itself in the browser tab. Links to a film, show, song, album or game show its title, summary and artwork when pasted into chat apps and social sites (in the link's `?lang=` language). `/sitemap.xml` lists every page in all four languages, and `/robots.txt` points search engines at it.
 - **Admin at `/admin`**, behind a password login:
   - batch JSON ingest with a preview and conflict review
   - edit or delete any record
@@ -37,7 +38,7 @@ Browser ── GET /api/catalog, /media/* ──┐
 ```
 
 - **Frontend:** React + Vite (`src/`). The admin is a separate lazy-loaded bundle (`src/admin/`), so visitors never download it.
-- **Backend:** one Cloudflare Worker using [Hono](https://hono.dev) (`worker/`). It serves the static site and the API.
+- **Backend:** one Cloudflare Worker using [Hono](https://hono.dev) (`worker/`). It serves the API and stored images, adds each item's title and artwork to its page for link previews, and generates `robots.txt` and `sitemap.xml`. Everything else is served straight from Cloudflare's CDN.
 - **Database:** Cloudflare D1. Every record is a JSON document (`migrations/`).
 - **Images:** Workers KV by default, or Cloudflare R2 if you enable it. Uploaded and copied artwork is served from `/media/<content-hash>.<ext>`, cached permanently.
 - **Shared rules:** `src/shared/` holds the field definitions, validation and ingest/diff logic. Both the Worker and the admin forms use it, so there's one source of truth.
@@ -172,7 +173,8 @@ Database migrations are applied as part of either path.
 ## Project layout
 
 ```
-worker/          API (Hono): public catalog, admin CRUD, ingest, settings, export, images (KV/R2), art lookup; password login
+worker/          API (Hono): public catalog, admin CRUD, ingest, settings, export, images (KV/R2), art lookup; password login;
+                 link previews on item pages, robots.txt, sitemap (pages.ts)
 migrations/      D1 schema
 src/shared/      field definitions, validation, ingest diff/merge (used by Worker + admin)
 src/admin/       admin UI (lazy-loaded)
