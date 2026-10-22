@@ -39,6 +39,15 @@ export async function getSettings(db: D1Database): Promise<SiteSettings> {
   return s;
 }
 
+/**
+ * Changes whenever the stored records could have: every insert and update moves the latest updated_at, and every
+ * delete changes the count. Two cheap aggregates instead of reading every record.
+ */
+export async function entitiesVersion(db: D1Database): Promise<string> {
+  const row = await db.prepare('SELECT COUNT(*) AS n, MAX(updated_at) AS at FROM entities').first<{ n: number; at: string | null }>();
+  return `${row?.n ?? 0}@${row?.at ?? ''}`;
+}
+
 export const putSetting = (db: D1Database, key: string, value: unknown) =>
   db.prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value')
     .bind(key, JSON.stringify(value));

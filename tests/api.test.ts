@@ -111,3 +111,46 @@ describe('section switches', () => {
     expect((await catalog()).items.some((i) => i.medium === 'play')).toBe(true);
   });
 });
+
+describe('catalog caching', () => {
+  const tagOf = async (init: RequestInit = {}) => (await call('/api/catalog', init)).headers.get('etag')!;
+  const ifNoneMatch = (tag: string) => call('/api/catalog', { headers: { 'If-None-Match': tag } });
+
+  it('answers 304 with no body while nothing has changed', async () => {
+    const tag = await tagOf();
+    expect(tag).toMatch(/^W\/"[0-9a-f]{24}"$/);
+    const res = await ifNoneMatch(tag);
+    expect(res.status).toBe(304);
+    expect(await res.text()).toBe('');
+    expect(res.headers.get('etag')).toBe(tag);
+    expect(res.headers.get('cache-control')).toBe('no-cache');
+    expect((await ifNoneMatch(`W/"other", ${tag}`)).status).toBe(304);
+  });
+
+  it('changes when a record is added, edited or deleted', async () => {
+    const before = await tagOf();
+    const genre = { medium: 'listen', slug: 'test-genre', name: { en: 'Test genre' } };
+    expect((await send('POST', '/api/admin/entities/genre', genre)).status).toBe(201);
+    const added = await tagOf();
+    expect(added).not.toBe(before);
+
+    await send('PUT', '/api/admin/entities/genre/listen:test-genre', { ...genre, name: { en: 'Renamed genre' } });
+    const edited = await tagOf();
+    expect(edited).not.toBe(added);
+    expect((await ifNoneMatch(added)).status).toBe(200);
+
+    await call('/api/admin/entities/genre/listen:test-genre', { method: 'DELETE' });
+    expect(await tagOf()).not.toBe(edited);
+  });
+
+  it('changes when the settings or the deployed version change', async () => {
+    const before = await tagOf();
+    await send('PUT', '/api/admin/settings', { media: { listen: false } });
+    expect(await tagOf()).not.toBe(before);
+    await send('PUT', '/api/admin/settings', { media: { listen: true } });
+    expect(await tagOf()).toBe(before);
+
+    const deployed = await app.request('http://localhost/api/catalog', {}, { ...env, CF_VERSION_METADATA: { id: 'v2', tag: '', timestamp: '' } });
+    expect(deployed.headers.get('etag')).not.toBe(before);
+  });
+});
