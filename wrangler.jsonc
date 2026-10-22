@@ -8,8 +8,9 @@
   "assets": {
     // Client-side routes like /title/past-lives fall back to index.html.
     "not_found_handling": "single-page-application",
-    // Only API and stored-image requests reach the Worker; everything else is served straight from the CDN.
-    "run_worker_first": ["/api/*", "/media/*"]
+    // Only these reach the Worker: the API, stored images, robots.txt and the sitemap. Everything else is served
+    // straight from the CDN.
+    "run_worker_first": ["/api/*", "/media/*", "/robots.txt", "/sitemap.xml"]
   },
   "d1_databases": [
     {

@@ -154,3 +154,28 @@ describe('catalog caching', () => {
     expect(deployed.headers.get('etag')).not.toBe(before);
   });
 });
+
+describe('public pages', () => {
+  it('lists every shown page in the sitemap, in all four languages', async () => {
+    const res = await call('/sitemap.xml');
+    expect(res.headers.get('content-type')).toContain('application/xml');
+    const xml = await res.text();
+    const c = await catalog();
+    const film = c.items.find((i) => i.medium === 'watch')!;
+    expect(xml).toContain(`<loc>http://localhost/title/${film.id}</loc>`);
+    expect(xml).toContain(`<loc>http://localhost/title/${film.id}?lang=th</loc>`);
+    expect(xml).toContain(`hreflang="x-default" href="http://localhost/title/${film.id}"`);
+    expect(xml).toContain(`<loc>http://localhost/person/${film.directors![0]}</loc>`);
+    expect(xml.match(/<url>/g)).toHaveLength(new Set(xml.match(/<loc>[^<]+<\/loc>/g)).size);
+
+    await send('PUT', '/api/admin/settings', { media: { play: false } });
+    const hidden = await (await call('/sitemap.xml')).text();
+    expect(hidden).not.toContain('/game/');
+    expect(hidden).not.toContain('<loc>http://localhost/play</loc>');
+    await send('PUT', '/api/admin/settings', { media: { play: true } });
+  });
+
+  it('serves robots.txt pointing at the sitemap', async () => {
+    expect(await (await call('/robots.txt')).text()).toContain('Sitemap: http://localhost/sitemap.xml');
+  });
+});

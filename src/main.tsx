@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import { loadCatalog } from './data';
+import { ITEM_PATH } from './shared/schema';
 import { LangProvider } from './i18n';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
@@ -21,9 +22,9 @@ const router = createBrowserRouter([
       { path: 'watch', element: <Browse section="watch" /> },
       { path: 'listen', element: <Browse section="listen" /> },
       { path: 'play', element: <Browse section="play" /> },
-      { path: 'title/:slug', element: <Detail medium="watch" /> },
-      { path: 'music/:slug', element: <Detail medium="listen" /> },
-      { path: 'game/:slug', element: <Detail medium="play" /> },
+      { path: `${ITEM_PATH.watch}/:slug`, element: <Detail medium="watch" /> },
+      { path: `${ITEM_PATH.listen}/:slug`, element: <Detail medium="listen" /> },
+      { path: `${ITEM_PATH.play}/:slug`, element: <Detail medium="play" /> },
       { path: 'genre/:medium/:slug', element: <GenrePage /> },
       { path: 'person/:slug', element: <PersonPage /> },
       { path: 'studio/:slug', element: <StudioPage /> },

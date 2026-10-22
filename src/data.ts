@@ -1,4 +1,4 @@
-import { availabilityActive, genreKey, LANGS, MEDIA, type CompanyDoc, type GenreDoc, type ItemDoc, type Lang, type Medium, type PersonDoc, type SiteSettings, type I18n, type Sources, sourceKey } from './shared/schema';
+import { availabilityActive, genreKey, ITEM_PATH, LANGS, MEDIA, type CompanyDoc, type GenreDoc, type ItemDoc, type Lang, type Medium, type PersonDoc, type SiteSettings, type I18n, type Sources, sourceKey } from './shared/schema';
 import type { Company, Entry, Genre, Item, Localized, Person } from './types';
 
 export interface Catalog {
@@ -67,8 +67,7 @@ export const getCompany = (slug: string) => companyMap.get(slug);
 export const getGenre = (medium: Medium, slug: string) => genreMap.get(genreKey(medium, slug));
 export const genresOf = (m: Medium) => genres.filter((g) => g.doc.medium === m);
 
-const PATH: Record<Medium, string> = { watch: 'title', listen: 'music', play: 'game' };
-export const itemPath = (item: Item) => `/${PATH[item.section]}/${item.slug}`;
+export const itemPath = (item: Item) => `/${ITEM_PATH[item.section]}/${item.slug}`;
 export const genrePath = (medium: Medium, slug: string) => `/genre/${medium}/${slug}`;
 export const itemArt = (item: Item) => item.doc.poster ?? item.doc.cover;
 export const itemKey = (item: Item) => `${item.section}:${item.slug}`;
