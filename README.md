@@ -1,6 +1,64 @@
 # The Stacks
 
-A hand-curated library of **films, TV, music and games** for everyone who visits, in **English, 日本語, ไทย and Español**.
+**Your own hand-picked library of films, TV, music and games, in four languages, free to run.**
+
+A curated catalog for everyone who visits, in **English, 日本語, ไทย and Español**: official artwork, spoiler-free
+summaries, where to watch or listen, and pages for every person, studio, genre and country, all linked together. It
+looks different in the morning and at night, shares nicely in chat apps, and has a full admin for adding things in
+bulk. It runs entirely on Cloudflare's free tier.
+
+[![CI](https://github.com/gitosaurusrex/the-stacks/actions/workflows/ci.yml/badge.svg)](https://github.com/gitosaurusrex/the-stacks/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+![Cloudflare free tier](https://img.shields.io/badge/runs%20on-Cloudflare%20free%20tier-f38020)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/home-dark.webp">
+  <img src="docs/screenshots/home-light.webp" alt="The Stacks home page in the afternoon: a Good afternoon greeting, Watch, Listen and Play buttons, and a fanned stack of posters">
+</picture>
+
+## Why The Stacks
+
+- **Curated, not endless.** You choose every item, so visitors get a short list worth their time instead of an
+  algorithm's feed.
+- **Four languages, done properly.** Official release titles in each language, each region's own game release
+  dates, and a note on anything machine-translated. Visitors switch with one click and the site remembers.
+- **Everything links up.** Click a director, a band, a studio or a genre to see everything else they're in, with
+  "More like this" on every item.
+- **Follows the time of day.** Morning and afternoon are bright, evening and night are dark, and the greeting changes
+  with the visitor's clock.
+- **Adds itself.** Drop in a JSON file, which Claude can write for you. Preview every change, then let the site find
+  official artwork, headshots, bios and missing translations.
+- **Free and fast.** One Cloudflare Worker, a D1 database and KV storage, all within the free tier, with posters and
+  pages served from Cloudflare's CDN.
+- **Shares well.** Links to a film, song or game show its title, summary and artwork in chat apps and social sites, and
+  every page is in the sitemap in all four languages.
+
+<table>
+  <tr>
+    <td width="50%"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/browse-dark.webp">
+  <img src="docs/screenshots/browse-light.webp" alt="The Watch section at night: six films and shows as poster cards with genre filters and a search box">
+</picture></td>
+    <td width="50%"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/detail-dark.webp">
+  <img src="docs/screenshots/detail-light.webp" alt="A film detail page: poster, genres and countries, summary, director and cast, a free-for-a-limited-time badge and a Watch button">
+</picture></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td width="68%"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/japanese-dark.webp">
+  <img src="docs/screenshots/japanese-light.webp" alt="The home page in Japanese, with a time-of-day greeting">
+</picture></td>
+    <td width="32%"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/phone-dark.webp">
+  <img src="docs/screenshots/phone-light.webp" alt="A game page on a phone: cover, platforms, genres and release date">
+</picture></td>
+  </tr>
+</table>
+
+## Everything it does
 
 - Official artwork, spoiler-free summaries, and the date each item was added
 - **Film & TV**:
@@ -26,25 +84,6 @@ A hand-curated library of **films, TV, music and games** for everyone who visits
   - edit or delete any record
   - switch whole sections (e.g. Games) on or off
   - export everything
-
-## How it's built
-
-```
-Browser ── GET /api/catalog, /media/* ──┐
-                                        ▼
-   Cloudflare Worker (worker/)  ──  D1 database (SQLite) + KV or R2 (images)
-                              ▲
-/admin ── password login ── /api/admin/*  (signed session cookie checked by the Worker)
-```
-
-- **Frontend:** React + Vite (`src/`). The admin is a separate lazy-loaded bundle (`src/admin/`), so visitors never download it.
-- **Backend:** one Cloudflare Worker using [Hono](https://hono.dev) (`worker/`). It serves the API and stored images, adds each item's title and artwork to its page for link previews, and generates `robots.txt` and `sitemap.xml`. Everything else is served straight from Cloudflare's CDN.
-- **Database:** Cloudflare D1. Every record is a JSON document (`migrations/`).
-- **Images:** Workers KV by default, or Cloudflare R2 if you enable it. Uploaded and copied artwork is served from `/media/<content-hash>.<ext>`, cached permanently.
-- **Shared rules:** `src/shared/` holds the field definitions, validation and ingest/diff logic. Both the Worker and the admin forms use it, so there's one source of truth.
-- **Login:** one admin password, stored as a Worker secret. Signing in sets an HttpOnly, SameSite=Strict cookie signed with that password, and the Worker checks it on every admin API call. Wrong passwords are rate-limited per address.
-
-Everything runs on Cloudflare's free tier.
 
 ## Run it locally
 
@@ -181,8 +220,45 @@ src/admin/       admin UI (lazy-loaded)
 src/pages/       public pages: home, browse, detail, person, studio, genre, country, search
 src/components/  cards, chips, availability badge, layout
 seed/            example ingest file (everything on the site at launch)
-docs/            ingest file format
-scripts/         fetch-art (TMDB / Wikipedia / Spotify), seed-local
+docs/            ingest file format, technical guide, README screenshots
+scripts/         fetch-art (TMDB / Wikipedia / Spotify), seed-local, screenshots (with a made-up demo catalog)
 tests/           vitest: validation, ingest, auth, the API against a local D1
 .github/         CI: tests and build on every pull request
 ```
+
+## Under the hood (TL;DR)
+
+```
+Browser ── GET /api/catalog, /media/* ──┐
+                                        ▼
+   Cloudflare Worker (worker/)  ──  D1 database (SQLite) + KV or R2 (images)
+                              ▲
+/admin ── password login ── /api/admin/*  (signed session cookie checked by the Worker)
+```
+
+- **Frontend:** React + Vite (`src/`). The admin is a separate lazy-loaded bundle (`src/admin/`), so visitors never download it.
+- **Backend:** one Cloudflare Worker using [Hono](https://hono.dev) (`worker/`). It serves the API and stored images, adds each item's title and artwork to its page for link previews, and generates `robots.txt` and `sitemap.xml`. Everything else is served straight from Cloudflare's CDN.
+- **Database:** Cloudflare D1. Every record is a JSON document (`migrations/`).
+- **Images:** Workers KV by default, or Cloudflare R2 if you enable it. Uploaded and copied artwork is served from `/media/<content-hash>.<ext>`, cached permanently.
+- **Shared rules:** `src/shared/` holds the field definitions, validation and ingest/diff logic. Both the Worker and the admin forms use it, so there's one source of truth.
+- **Login:** one admin password, stored as a Worker secret. Signing in sets an HttpOnly, SameSite=Strict cookie signed with that password, and the Worker checks it on every admin API call. Wrong passwords are rate-limited per address.
+
+Everything runs on Cloudflare's free tier.
+
+For the full tour (data model, catalog caching, languages, time of day, link previews, ingest, image storage, artwork
+lookups, translations, login and a code map) read **[docs/technical.md](docs/technical.md)**.
+
+## Credits and license
+
+The code is [MIT](LICENSE)-licensed: use it, change it, run your own copy, share it. Just keep the copyright notice.
+
+The catalog a deployment shows is not part of that licence:
+
+- **[TMDB](https://www.themoviedb.org):** film and TV artwork, headshots, bios and official titles come from the TMDB
+  API. This product uses the TMDB API but is not endorsed or certified by TMDB. The site's footer carries that notice;
+  keep it if you run your own copy.
+- **Wikipedia and Wikimedia:** game box art comes from English Wikipedia articles. Bios taken from Wikipedia are
+  CC BY-SA and are credited under the bio.
+- **Spotify:** music covers come from Spotify's public embed data for each item's own Spotify link.
+- **Posters, covers, box art and photos** belong to their studios, labels, publishers and photographers. None of them
+  are stored in this repository.
