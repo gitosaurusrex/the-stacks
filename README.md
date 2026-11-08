@@ -1,11 +1,13 @@
 # The Stacks
 
-**Your own hand-picked library of films, TV, music and games, in four languages, free to run.**
+**A home for your own curated library of films, TV, music and games, presented in four languages, free to run.**
 
-A curated catalog for everyone who visits, in **English, 日本語, ไทย and Español**: official artwork, spoiler-free
-summaries, where to watch or listen, and pages for every person, studio, genre and country, all linked together. It
-looks different in the morning and at night, shares nicely in chat apps, and has a full admin for adding things in
-bulk. It runs entirely on Cloudflare's free tier.
+You decide what goes in and what it says. Every title, summary, release date, credit and link comes from you, typed
+in the admin or uploaded as a JSON file. The Stacks turns that into a polished site in **English, 日本語, ไทย and
+Español**, with pages for every person, studio, genre and country you add, all linked together, and a look that
+follows the time of day. Optional tools in the admin help fill gaps. They can suggest artwork and headshots, bring in
+bios and official titles from TMDB, and draft translations, and anything they fill is marked for you to review. It runs
+entirely on Cloudflare's free tier.
 
 [![CI](https://github.com/gitosaurusrex/the-stacks/actions/workflows/ci.yml/badge.svg)](https://github.com/gitosaurusrex/the-stacks/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
@@ -18,16 +20,19 @@ bulk. It runs entirely on Cloudflare's free tier.
 
 ## Why The Stacks
 
-- **Curated, not endless.** You choose every item, so visitors get a short list worth their time instead of an
-  algorithm's feed.
-- **Four languages, done properly.** Official release titles in each language, each region's own game release
-  dates, and a note on anything machine-translated. Visitors switch with one click and the site remembers.
-- **Everything links up.** Click a director, a band, a studio or a genre to see everything else they're in, with
-  "More like this" on every item.
+- **Your catalog, your words.** The Stacks comes with no content and writes none. You pick every item and supply its
+  summary, dates and links; the site organizes and presents them, so visitors get a short list worth their time
+  instead of an algorithm's feed.
+- **Four languages, built in.** The interface is translated, and every field has a box per language. Each language
+  shows its own region's game release date. Anything you haven't translated falls back to English. Machine
+  translations stay flagged until you review them, and visitors see a "Translated automatically" note.
+- **Everything links up.** Every person, studio, genre and country you add gets its own page listing everything
+  they're credited on, and every item gets "More like this".
 - **Follows the time of day.** Morning and afternoon are bright, evening and night are dark, and the greeting changes
   with the visitor's clock.
-- **Adds itself.** Drop in a JSON file, which Claude can write for you. Preview every change, then let the site find
-  official artwork, headshots, bios and missing translations.
+- **Quick to fill.** Upload many records at once as a JSON file (Claude can help you write one) and review every
+  change before it's saved. Optional lookups suggest official artwork and headshots and fill in bios and official
+  titles from TMDB, only ever into empty fields.
 - **Free and fast.** One Cloudflare Worker, a D1 database and KV storage, all within the free tier, with posters and
   pages served from Cloudflare's CDN.
 - **Shares well.** Links to a film, song or game show its title, summary and artwork in chat apps and social sites, and
@@ -60,14 +65,16 @@ bulk. It runs entirely on Cloudflare's free tier.
 
 ## Everything it does
 
-- Official artwork, spoiler-free summaries, and the date each item was added
+Everything below is shown from the records you add; the site doesn't come with a catalog of its own.
+
+- Artwork, your spoiler-free summary, and the date each item was added
 - **Film & TV**:
   - director/creator and top-billed cast, year and release countries
   - a **Watch** button
   - **free / limited-time availability** badges that hide themselves after the end date
 - **Music**: artists, album, **Spotify** and **Music video** buttons
 - **Games**:
-  - release dates for the US, Japan, Thailand and South America (each language shows its own region's), platforms
+  - the release dates you enter for the US, Japan, Thailand and South America (each language shows its own region's), platforms
   - developer and publisher (each with their own studio page)
   - notable creators (e.g. Hideo Kojima)
 - **Everything links up.**
@@ -252,13 +259,14 @@ lookups, translations, login and a code map) read **[docs/technical.md](docs/tec
 
 The code is [MIT](LICENSE)-licensed: use it, change it, run your own copy, share it. Just keep the copyright notice.
 
-The catalog a deployment shows is not part of that licence:
+The catalog a deployment shows is the site owner's own, and is not part of that licence. Material brought in with
+the lookups keeps its source's terms:
 
-- **[TMDB](https://www.themoviedb.org):** film and TV artwork, headshots, bios and official titles come from the TMDB
-  API. This product uses the TMDB API but is not endorsed or certified by TMDB. The site's footer carries that notice;
-  keep it if you run your own copy.
-- **Wikipedia and Wikimedia:** game box art comes from English Wikipedia articles. Bios taken from Wikipedia are
-  CC BY-SA and are credited under the bio.
-- **Spotify:** music covers come from Spotify's public embed data for each item's own Spotify link.
+- **[TMDB](https://www.themoviedb.org):** when you use the lookups, film and TV artwork, headshots, bios and
+  official titles come from the TMDB API. This product uses the TMDB API but is not endorsed or certified by TMDB.
+  The site's footer carries that notice; keep it if you run your own copy.
+- **Wikipedia and Wikimedia:** game box art suggestions come from English Wikipedia articles. Bios taken from
+  Wikipedia are CC BY-SA and are credited under the bio.
+- **Spotify:** music cover suggestions come from Spotify's public embed data for each item's own Spotify link.
 - **Posters, covers, box art and photos** belong to their studios, labels, publishers and photographers. None of them
   are stored in this repository.
