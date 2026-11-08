@@ -1,0 +1,647 @@
+{
+  "version": 1,
+  "genres": [
+    {
+      "medium": "watch",
+      "slug": "drama",
+      "name": {
+        "en": "Drama",
+        "ja": "ドラマ",
+        "th": "ดราม่า",
+        "es": "Drama"
+      },
+      "hue": 18
+    },
+    {
+      "medium": "watch",
+      "slug": "science-fiction",
+      "name": {
+        "en": "Sci-Fi",
+        "ja": "SF",
+        "th": "ไซไฟ",
+        "es": "Ciencia ficción"
+      },
+      "hue": 200
+    },
+    {
+      "medium": "watch",
+      "slug": "comedy",
+      "name": {
+        "en": "Comedy",
+        "ja": "コメディ",
+        "th": "ตลก",
+        "es": "Comedia"
+      },
+      "hue": 45
+    },
+    {
+      "medium": "watch",
+      "slug": "mystery",
+      "name": {
+        "en": "Mystery",
+        "ja": "ミステリー",
+        "th": "ลึกลับ",
+        "es": "Misterio"
+      },
+      "hue": 245
+    },
+    {
+      "medium": "watch",
+      "slug": "family",
+      "name": {
+        "en": "Family",
+        "ja": "ファミリー",
+        "th": "ครอบครัว",
+        "es": "Familia"
+      },
+      "hue": 130
+    },
+    {
+      "medium": "listen",
+      "slug": "indie-rock",
+      "name": {
+        "en": "Indie Rock",
+        "ja": "インディー・ロック",
+        "th": "อินดี้ร็อก",
+        "es": "Indie rock"
+      },
+      "hue": 165
+    },
+    {
+      "medium": "listen",
+      "slug": "folk",
+      "name": {
+        "en": "Folk",
+        "ja": "フォーク",
+        "th": "โฟล์ก",
+        "es": "Folk"
+      },
+      "hue": 85
+    },
+    {
+      "medium": "listen",
+      "slug": "pop",
+      "name": {
+        "en": "Pop",
+        "ja": "ポップ",
+        "th": "ป๊อป",
+        "es": "Pop"
+      },
+      "hue": 325
+    },
+    {
+      "medium": "play",
+      "slug": "adventure",
+      "name": {
+        "en": "Adventure",
+        "ja": "アドベンチャー",
+        "th": "ผจญภัย",
+        "es": "Aventura"
+      },
+      "hue": 130
+    },
+    {
+      "medium": "play",
+      "slug": "puzzle",
+      "name": {
+        "en": "Puzzle",
+        "ja": "パズル",
+        "th": "ปริศนา",
+        "es": "Puzles"
+      },
+      "hue": 270
+    },
+    {
+      "medium": "play",
+      "slug": "indie",
+      "name": {
+        "en": "Indie",
+        "ja": "インディー",
+        "th": "อินดี้",
+        "es": "Indie"
+      },
+      "hue": 300
+    },
+    {
+      "medium": "play",
+      "slug": "racing",
+      "name": {
+        "en": "Racing",
+        "ja": "レース",
+        "th": "แข่งรถ",
+        "es": "Carreras"
+      },
+      "hue": 8
+    }
+  ],
+  "companies": [
+    {
+      "id": "paper-moon-games",
+      "name": {
+        "en": "Paper Moon Games",
+        "ja": "ペーパームーン・ゲームズ"
+      },
+      "country": "JP"
+    },
+    {
+      "id": "tidewater-interactive",
+      "name": {
+        "en": "Tidewater Interactive"
+      },
+      "country": "US"
+    },
+    {
+      "id": "northlight-studio",
+      "name": {
+        "en": "Northlight Studio"
+      },
+      "country": "GB"
+    }
+  ],
+  "people": [
+    {
+      "id": "mara-ellison",
+      "name": {
+        "en": "Mara Ellison",
+        "ja": "マーラ・エリソン"
+      },
+      "bio": {
+        "en": "Mara Ellison is a director known for quiet, character-driven stories about families and the places they come from."
+      },
+      "photo": "https://art.stacks-demo.example/photo/mara-ellison.svg"
+    },
+    {
+      "id": "kenta-moriyama",
+      "name": {
+        "en": "Kenta Moriyama",
+        "ja": "森山健太"
+      },
+      "bio": {
+        "en": "Kenta Moriyama directs science fiction that stays small and human, even when the ideas are enormous."
+      },
+      "photo": "https://art.stacks-demo.example/photo/kenta-moriyama.svg"
+    },
+    {
+      "id": "lucia-ferrer",
+      "name": {
+        "en": "Lucía Ferrer",
+        "ja": "ルシア・フェレール"
+      },
+      "bio": {
+        "en": "Lucía Ferrer is an actor who moves easily between comedy and drama on stage and screen."
+      },
+      "photo": "https://art.stacks-demo.example/photo/lucia-ferrer.svg"
+    },
+    {
+      "id": "daniel-okafor",
+      "name": {
+        "en": "Daniel Okafor",
+        "ja": "ダニエル・オコンフォー"
+      },
+      "bio": {
+        "en": "Daniel Okafor is an actor best known for warm, understated performances."
+      },
+      "photo": "https://art.stacks-demo.example/photo/daniel-okafor.svg"
+    },
+    {
+      "id": "aiko-tanabe",
+      "name": {
+        "en": "Aiko Tanabe",
+        "ja": "田辺愛子"
+      },
+      "bio": {
+        "en": "Aiko Tanabe is an actor and voice performer from Osaka."
+      },
+      "photo": "https://art.stacks-demo.example/photo/aiko-tanabe.svg"
+    },
+    {
+      "id": "ploy-srisuk",
+      "name": {
+        "en": "Ploy Srisuk",
+        "ja": "プロイ・シースック"
+      },
+      "bio": {
+        "en": "Ploy Srisuk creates comedy series about friendship, work and growing up in Bangkok."
+      },
+      "photo": "https://art.stacks-demo.example/photo/ploy-srisuk.svg"
+    },
+    {
+      "id": "the-lantern-club",
+      "name": {
+        "en": "The Lantern Club",
+        "ja": "ザ・ランタン・クラブ"
+      },
+      "bio": {
+        "en": "The Lantern Club is a four-piece indie rock band that started in a school music room."
+      },
+      "photo": "https://art.stacks-demo.example/photo/the-lantern-club.svg"
+    },
+    {
+      "id": "june-harlow",
+      "name": {
+        "en": "June Harlow",
+        "ja": "ジューン・ハーロウ"
+      },
+      "bio": {
+        "en": "June Harlow is a folk singer-songwriter who records at home with whatever instruments are nearby."
+      },
+      "photo": "https://art.stacks-demo.example/photo/june-harlow.svg"
+    },
+    {
+      "id": "sora-ito",
+      "name": {
+        "en": "Sora Ito",
+        "ja": "伊藤空"
+      },
+      "bio": {
+        "en": "Sora Ito is a game designer known for puzzles that teach their rules without words."
+      },
+      "photo": "https://art.stacks-demo.example/photo/sora-ito.svg"
+    }
+  ],
+  "items": [
+    {
+      "id": "the-long-way-home",
+      "kind": "film",
+      "title": {
+        "en": "The Long Way Home",
+        "ja": "遠回りの帰り道"
+      },
+      "summary": {
+        "en": "Three siblings drive across the country to return their late grandmother's piano, and find out how little they know about each other.",
+        "ja": "亡き祖母のピアノを返すため、三人のきょうだいが国を横断するドライブに出る。そして互いのことをほとんど知らなかったと気づいていく。"
+      },
+      "year": 2024,
+      "genres": [
+        "drama",
+        "family"
+      ],
+      "directors": [
+        "mara-ellison"
+      ],
+      "cast": [
+        "lucia-ferrer",
+        "daniel-okafor"
+      ],
+      "countries": [
+        "US"
+      ],
+      "poster": "https://art.stacks-demo.example/poster/the-long-way-home.svg",
+      "backdrop": "https://art.stacks-demo.example/backdrop/the-long-way-home.svg",
+      "watch_service": "Example TV",
+      "watch_url": "https://watch.example.com/the-long-way-home",
+      "runtime": 118,
+      "featured": true
+    },
+    {
+      "id": "signal-to-noise",
+      "kind": "film",
+      "title": {
+        "en": "Signal to Noise",
+        "ja": "シグナル・トゥ・ノイズ"
+      },
+      "summary": {
+        "en": "A radio astronomer hears a pattern in the static and has to decide who to tell first.",
+        "ja": "電波天文学者が雑音の中にパターンを聞き取る。最初に誰に伝えるべきか、彼女は決断を迫られる。"
+      },
+      "year": 2023,
+      "genres": [
+        "science-fiction",
+        "mystery"
+      ],
+      "directors": [
+        "kenta-moriyama"
+      ],
+      "cast": [
+        "aiko-tanabe",
+        "daniel-okafor"
+      ],
+      "countries": [
+        "JP",
+        "US"
+      ],
+      "poster": "https://art.stacks-demo.example/poster/signal-to-noise.svg",
+      "backdrop": "https://art.stacks-demo.example/backdrop/signal-to-noise.svg",
+      "watch_service": "Example Free",
+      "watch_url": "https://watch.example.com/signal-to-noise",
+      "runtime": 104,
+      "featured": true,
+      "availability": {
+        "free": true,
+        "limited_time": true,
+        "until": "2026-12-31"
+      }
+    },
+    {
+      "id": "office-hours",
+      "kind": "tv",
+      "title": {
+        "en": "Office Hours",
+        "ja": "オフィス・アワー"
+      },
+      "summary": {
+        "en": "Four friends start a tiny design studio above a noodle shop and learn that running a business is the easy part.",
+        "ja": "四人の友人がラーメン店の二階に小さなデザイン事務所を開く。経営は意外と簡単で、難しいのはそれ以外だった。"
+      },
+      "year": 2025,
+      "genres": [
+        "comedy"
+      ],
+      "directors": [
+        "ploy-srisuk"
+      ],
+      "cast": [
+        "lucia-ferrer"
+      ],
+      "countries": [
+        "TH"
+      ],
+      "poster": "https://art.stacks-demo.example/poster/office-hours.svg",
+      "backdrop": "https://art.stacks-demo.example/backdrop/office-hours.svg",
+      "watch_service": "Example TV",
+      "watch_url": "https://watch.example.com/office-hours",
+      "featured": true
+    },
+    {
+      "id": "the-quiet-house",
+      "kind": "film",
+      "title": {
+        "en": "The Quiet House",
+        "ja": "静かな家"
+      },
+      "summary": {
+        "en": "A family moves into an old house where every clock stops at the same minute.",
+        "ja": "一家が引っ越した古い家では、すべての時計が同じ時刻で止まる。"
+      },
+      "year": 2022,
+      "genres": [
+        "mystery",
+        "drama"
+      ],
+      "directors": [
+        "mara-ellison"
+      ],
+      "cast": [
+        "aiko-tanabe"
+      ],
+      "countries": [
+        "GB"
+      ],
+      "poster": "https://art.stacks-demo.example/poster/the-quiet-house.svg",
+      "backdrop": "https://art.stacks-demo.example/backdrop/the-quiet-house.svg",
+      "watch_service": "Example TV",
+      "watch_url": "https://watch.example.com/the-quiet-house",
+      "runtime": 96
+    },
+    {
+      "id": "paper-planets",
+      "kind": "film",
+      "title": {
+        "en": "Paper Planets",
+        "ja": "紙の惑星"
+      },
+      "summary": {
+        "en": "A girl builds a model solar system for the school fair and accidentally starts a town-wide space race.",
+        "ja": "学校の発表会のために太陽系の模型を作った少女が、思いがけず町じゅうを巻き込む宇宙開発競争を始めてしまう。"
+      },
+      "year": 2025,
+      "genres": [
+        "family",
+        "comedy"
+      ],
+      "directors": [
+        "kenta-moriyama"
+      ],
+      "cast": [
+        "daniel-okafor"
+      ],
+      "countries": [
+        "JP"
+      ],
+      "poster": "https://art.stacks-demo.example/poster/paper-planets.svg",
+      "backdrop": "https://art.stacks-demo.example/backdrop/paper-planets.svg",
+      "watch_service": "Example TV",
+      "watch_url": "https://watch.example.com/paper-planets",
+      "runtime": 92
+    },
+    {
+      "id": "night-shift",
+      "kind": "tv",
+      "title": {
+        "en": "Night Shift",
+        "ja": "ナイトシフト"
+      },
+      "summary": {
+        "en": "A hospital's night staff keep each other going through the strangest hours of the week.",
+        "ja": "病院の夜勤スタッフたちが、一週間でいちばん奇妙な時間を支え合いながら乗り越えていく。"
+      },
+      "year": 2024,
+      "genres": [
+        "drama"
+      ],
+      "directors": [
+        "ploy-srisuk"
+      ],
+      "cast": [
+        "lucia-ferrer",
+        "aiko-tanabe"
+      ],
+      "countries": [
+        "TH",
+        "US"
+      ],
+      "poster": "https://art.stacks-demo.example/poster/night-shift.svg",
+      "backdrop": "https://art.stacks-demo.example/backdrop/night-shift.svg",
+      "watch_service": "Example TV",
+      "watch_url": "https://watch.example.com/night-shift"
+    },
+    {
+      "id": "lanterns",
+      "kind": "album",
+      "title": {
+        "en": "Lanterns",
+        "ja": "ランタンズ"
+      },
+      "summary": {
+        "en": "A bright, scrappy debut about leaving home and finding your people.",
+        "ja": "家を出て、自分の居場所を見つけるまでを描いた、明るく荒削りなデビュー作。"
+      },
+      "year": 2024,
+      "genres": [
+        "indie-rock"
+      ],
+      "artists": [
+        "the-lantern-club"
+      ],
+      "cover": "https://art.stacks-demo.example/cover/lanterns.svg",
+      "spotify_url": "https://open.spotify.example/lanterns",
+      "featured": true
+    },
+    {
+      "id": "kitchen-radio",
+      "kind": "song",
+      "title": {
+        "en": "Kitchen Radio",
+        "ja": "キッチン・ラジオ"
+      },
+      "summary": {
+        "en": "A song about the radio that was always on while someone cooked dinner.",
+        "ja": "誰かが夕食を作るあいだ、いつも流れていたラジオの歌。"
+      },
+      "year": 2023,
+      "genres": [
+        "folk"
+      ],
+      "artists": [
+        "june-harlow"
+      ],
+      "cover": "https://art.stacks-demo.example/cover/kitchen-radio.svg",
+      "spotify_url": "https://open.spotify.example/kitchen-radio",
+      "album": {
+        "en": "Small Hours"
+      },
+      "featured": true
+    },
+    {
+      "id": "small-hours",
+      "kind": "album",
+      "title": {
+        "en": "Small Hours",
+        "ja": "スモール・アワーズ"
+      },
+      "summary": {
+        "en": "Late-night folk songs recorded in a single room.",
+        "ja": "ひと部屋で録音された、深夜のフォーク・ソング集。"
+      },
+      "year": 2023,
+      "genres": [
+        "folk"
+      ],
+      "artists": [
+        "june-harlow"
+      ],
+      "cover": "https://art.stacks-demo.example/cover/small-hours.svg",
+      "spotify_url": "https://open.spotify.example/small-hours"
+    },
+    {
+      "id": "afterglow",
+      "kind": "song",
+      "title": {
+        "en": "Afterglow",
+        "ja": "アフターグロウ"
+      },
+      "summary": {
+        "en": "The single that got the whole school singing along.",
+        "ja": "学校じゅうが一緒に歌った、あのシングル。"
+      },
+      "year": 2025,
+      "genres": [
+        "pop",
+        "indie-rock"
+      ],
+      "artists": [
+        "the-lantern-club"
+      ],
+      "cover": "https://art.stacks-demo.example/cover/afterglow.svg",
+      "spotify_url": "https://open.spotify.example/afterglow"
+    },
+    {
+      "id": "lighthouse-keeper",
+      "kind": "game",
+      "title": {
+        "en": "Lighthouse Keeper",
+        "ja": "灯台守"
+      },
+      "summary": {
+        "en": "Keep the light burning through a long winter on a tiny island, one puzzle at a time.",
+        "ja": "小さな島で長い冬を越すあいだ、パズルを解きながら灯台の明かりを守り続ける。"
+      },
+      "genres": [
+        "puzzle",
+        "indie"
+      ],
+      "developers": [
+        "paper-moon-games"
+      ],
+      "publishers": [
+        "paper-moon-games"
+      ],
+      "creators": [
+        "sora-ito"
+      ],
+      "platforms": [
+        "pc",
+        "switch",
+        "ps5"
+      ],
+      "release_us": "2024-03-14",
+      "cover": "https://art.stacks-demo.example/cover/lighthouse-keeper.svg",
+      "release_jp": "2024-03-14",
+      "featured": true
+    },
+    {
+      "id": "tidal-drift",
+      "kind": "game",
+      "title": {
+        "en": "Tidal Drift",
+        "ja": "タイダル・ドリフト"
+      },
+      "summary": {
+        "en": "Race tiny boats through flooded city streets.",
+        "ja": "水没した街の通りを、小さなボートで駆け抜けるレースゲーム。"
+      },
+      "genres": [
+        "racing"
+      ],
+      "developers": [
+        "tidewater-interactive"
+      ],
+      "publishers": [
+        "tidewater-interactive"
+      ],
+      "creators": [],
+      "platforms": [
+        "pc",
+        "xbox-series",
+        "ps5"
+      ],
+      "release_us": "2025-06-20",
+      "cover": "https://art.stacks-demo.example/cover/tidal-drift.svg",
+      "release_jp": "2025-07-03",
+      "featured": true
+    },
+    {
+      "id": "the-map-room",
+      "kind": "game",
+      "title": {
+        "en": "The Map Room",
+        "ja": "地図の部屋"
+      },
+      "summary": {
+        "en": "Explore a house whose rooms rearrange themselves every time you close a door.",
+        "ja": "扉を閉めるたびに部屋の並びが変わる家を探検するアドベンチャー。"
+      },
+      "genres": [
+        "adventure",
+        "puzzle"
+      ],
+      "developers": [
+        "northlight-studio"
+      ],
+      "publishers": [
+        "paper-moon-games"
+      ],
+      "creators": [
+        "sora-ito"
+      ],
+      "platforms": [
+        "pc",
+        "mac",
+        "switch"
+      ],
+      "release_us": "2023-10-05",
+      "cover": "https://art.stacks-demo.example/cover/the-map-room.svg",
+      "release_jp": "2023-11-16"
+    }
+  ]
+}
