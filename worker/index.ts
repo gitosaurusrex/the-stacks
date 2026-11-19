@@ -10,6 +10,7 @@ import { entitiesVersion, getEntity, getSettings, loadAll, putSetting, upsert } 
 import type { AppEnv } from './env';
 import { importImage, MediaError, serveImage, storeImage } from './media';
 import { itemMeta, publicCatalog, robots, sitemap, withMeta } from './pages';
+import { securityHeaders } from './headers';
 
 const app = new Hono<AppEnv>().basePath('/api');
 
@@ -398,6 +399,7 @@ app.all('*', (c) => c.json({ error: 'Not found.' }, 404));
  * link previews), robots.txt and the sitemap. Everything else is served as static files without reaching it.
  */
 const site = new Hono<AppEnv>();
+site.use('*', securityHeaders);
 site.get('/media/:key', (c) => serveImage(c.env, c.req.param('key'), c.req.raw));
 site.route('/', app);
 

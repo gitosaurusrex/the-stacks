@@ -220,7 +220,7 @@ Database migrations are applied as part of either path.
 
 ```
 worker/          API (Hono): public catalog, admin CRUD, ingest, settings, export, images (KV/R2), art lookup; password login;
-                 link previews on item pages, robots.txt, sitemap (pages.ts)
+                 link previews on item pages, robots.txt, sitemap (pages.ts); security headers (headers.ts)
 migrations/      D1 schema
 src/shared/      field definitions, validation, ingest diff/merge (used by Worker + admin)
 src/admin/       admin UI (lazy-loaded)

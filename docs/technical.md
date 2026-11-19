@@ -10,6 +10,7 @@ the [README](../README.md). For the batch file format, see [ingest-format.md](in
 - [Languages](#languages)
 - [Time of day](#time-of-day)
 - [Link previews, sitemap and robots](#link-previews-sitemap-and-robots)
+- [Security headers](#security-headers)
 - [Batch ingest](#batch-ingest)
 - [Images](#images)
 - [Artwork lookups](#artwork-lookups)
@@ -118,6 +119,19 @@ Pages render in the browser, but chat apps, social sites and search engines don'
 Worker reads `index.html` from the assets binding and adds a page title and Open Graph tags (`og:title`,
 `og:description`, `og:image`, `og:locale` and so on), in the language from `?lang=`. `/sitemap.xml` lists every public
 page in all four languages, and `/robots.txt` points to it (`worker/pages.ts`).
+
+## Security headers
+
+Every response carries the same set: a Content-Security-Policy of `frame-ancestors 'none'; base-uri 'self';
+object-src 'none'; form-action 'self'`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`,
+`Referrer-Policy: strict-origin-when-cross-origin`, a `Permissions-Policy` turning off camera, microphone, location,
+payment and USB, and `Strict-Transport-Security` for a year. Above all, no other site can show the admin in a frame to
+trick a signed-in editor into clicking (clickjacking).
+
+They're set in two places, because Cloudflare applies `public/_headers` only to the files it serves itself. The Worker's
+`securityHeaders` middleware (`worker/headers.ts`) adds them to everything it answers. `tests/headers.test.ts` fails if
+the two lists differ. The policy doesn't restrict scripts, styles or images: `index.html` has inline scripts and
+artwork can be linked from any https site, so tightening that is a separate job.
 
 ## Batch ingest
 
@@ -250,6 +264,7 @@ worker/media.ts       image sniffing, content-hashed storage in KV or R2, servin
 worker/art.ts         TMDB, Wikipedia and Spotify artwork; TMDB bios
 worker/translate.ts   Workers AI translation and its rules
 worker/pages.ts       public catalog, link previews, sitemap, robots.txt
+worker/headers.ts     security headers on the Worker's responses (public/_headers has the same for static files)
 src/shared/           schema, validation, ingest analyze/diff/fill (Worker + admin)
 src/main.tsx          routes
 src/data.ts           catalog loading and lookups in the browser
