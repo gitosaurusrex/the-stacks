@@ -229,10 +229,13 @@ All under `/api/admin`, behind the login except `login` and `logout`:
 - the API against a local D1;
 - media sniffing and storage, artwork ranking and bios;
 - translation rules, language fallbacks, link previews and the sitemap;
+- security headers (the Worker's list and `public/_headers` must match);
 - time-of-day periods and greetings.
 
 CI (`.github/workflows/ci.yml`) runs `npm test` and `npm run build` on every pull request and push to `main`.
-`npm run build` type-checks the app and the Worker before building.
+`npm run build` type-checks the app and the Worker before building. Workers Builds deploys `main` only: preview builds
+for other branches are off, because previews would need their own database and storage (see the README's deploy
+section).
 
 `node scripts/screenshots.mjs` regenerates the README images. It builds the site and serves it with `wrangler dev`
 against a **throwaway** local database, so your own local data is untouched. It loads the made-up catalog in
