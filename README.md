@@ -143,6 +143,8 @@ Connecting the repo doesn't start a build by itself: the first one runs on the n
 
 If a build fails on the migrations step with a permissions error, set the deploy command to `npx wrangler deploy` and run `npm run db:migrate:remote` from your computer whenever a new file appears in `migrations/`.
 
+**Turn off preview builds.** Builds also deploys every other branch, such as a pull request's, as a [Worker Preview](https://developers.cloudflare.com/workers/previews/). Previews don't inherit the production database, image storage or secrets, and `wrangler.jsonc` has no `previews` block for them, so those builds fail ("missing a `previews` block"). Under **Workers & Pages → the-stacks → Settings → Build → Branch control**, uncheck **Enable Preview Builds**. GitHub Actions still tests every pull request. To use Previews instead, give them their own D1 database, KV namespace and admin password; [issue #31](https://github.com/gitosaurusrex/the-stacks/issues/31) has the steps.
+
 #### Using R2 instead of KV
 
 KV's free tier holds 1 GB and allows 1,000 new images a day, which is plenty for a catalog like this. R2 holds 10 GB free, but enabling it (dashboard → R2 Object Storage) asks for a payment method. To switch: run `npx wrangler r2 bucket create fyc-media`, uncomment the `r2_buckets` line in `wrangler.jsonc`, and run `npm run deploy` (it rebuilds, which picks up the change). Images already in KV aren't moved automatically.
